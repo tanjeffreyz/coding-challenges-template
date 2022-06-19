@@ -1,21 +1,9 @@
 {
   "languages": {
-    "C": {
-      "color": "#555555",
-      "count": 1
-    },
-    "Java": {
-      "color": "#b07219",
-      "count": 2
-    },
     "Python": {
       "color": "#3572A5",
-      "count": 11
+      "count": 3
     }
   },
-  "levels": {
-    "easy": 1,
-    "hard": 1,
-    "medium": 8
-  }
+  "levels": {}
 }
