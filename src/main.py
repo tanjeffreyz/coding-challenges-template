@@ -42,7 +42,7 @@ for folder in glob.glob(os.path.join('.', '*')):
 
 # Compile total challenge statistics
 stats = utils.default_stats()
-stats['levels'] = levels_cache
+stats['levels'] = utils.map_level_colors(levels_cache)
 languages = stats['languages']
 for language, pair in utils.LANGUAGES.items():
     ext = '.' + pair[0]

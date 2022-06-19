@@ -21,15 +21,14 @@ class Plot:
     def levels(self):
         levels = self.stats['levels']
         level_order = ('hard', 'medium', 'easy')
-        level_colors = ('red', 'orange', 'green')
         labels = []
         colors = []
         counts = []
-        for level, color in zip(level_order, level_colors):
+        for level in level_order:
             if level in levels:
                 labels.append(level.capitalize())
-                colors.append(color)
-                counts.append(levels[level])
+                colors.append(levels[level]['color'])
+                counts.append(levels[level]['count'])
 
         _, labels, _ = self.ax_levels.pie(
             counts, labels=labels, colors=colors,

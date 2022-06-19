@@ -6,6 +6,11 @@ import pickle
 CACHE_PATH = os.path.join('src', 'resources', 'cache')
 TEMPLATES_DIR = os.path.join('src', 'resources', 'templates')
 IGNORED_TAGS = ('meta', 'link', '!DOCTYPE', 'br', 'hr')
+LEVELS = {
+    'easy': '#2ca02c',
+    'medium': '#ff7f0e',
+    'hard': '#d62728'
+}
 LANGUAGES = {       # Ext         Color
     'C++':          ('cpp',     '#f34b7d'),
     'Java':         ('java',    '#b07219'),
@@ -113,3 +118,13 @@ def indent(contents):
                     next_indent -= 1
         contents[i] = ' ' * 4 * max(0, curr_indent) + line
         curr_indent = next_indent
+
+
+def map_level_colors(levels):
+    result = {}
+    for level, count in levels.items():
+        result[level] = {
+            'count': count,
+            'color': LEVELS[level]
+        }
+    return result
