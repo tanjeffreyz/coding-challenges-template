@@ -2,9 +2,9 @@ import utils
 
 
 LEVELS = (
-    ('hard',    '#e91e63'),
-    ('medium',  '#ef6c00'),
-    ('easy',    '#43a047'),
+    ('hard',    '#d14026'),
+    ('medium',  '#ffb84d'),
+    ('easy',    '#46cc41'),
 )
 LANGUAGES = {       # Ext         Color
     'C++':          ('cpp',     '#f34b7d'),
