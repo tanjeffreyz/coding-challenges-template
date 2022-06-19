@@ -8,15 +8,17 @@ from plot import Plot
 OUTPUT_PATH = os.path.join('src', 'output')
 STATS_PATH = os.path.join(OUTPUT_PATH, 'stats.json')
 METRICS_PATH = os.path.join(OUTPUT_PATH, 'metrics.png')
-IGNORED_FILES = set(glob.glob('./*.*'))
-
-extension_counts = {}
+IGNORED_FILES = set(
+    glob.glob(os.path.join('.', '*.*')) +
+    glob.glob(os.path.join('.', 'src', '**', '*.*'), recursive=True)
+)
 
 # Parse all files
+extension_counts = {}
 cache = utils.load_cache()
 parsed_cache = cache['parsed']
 levels_cache = cache['levels']
-for folder in glob.glob('./*/'):
+for folder in glob.glob(os.path.join('.', '*')):
     for file in glob.glob(os.path.join(folder, '**', '*.*'), recursive=True):
         if file in IGNORED_FILES:
             continue
