@@ -2,6 +2,7 @@ import os
 import json
 import utils
 import glob
+from stats import Stats
 from plot import Plot
 
 
@@ -41,18 +42,10 @@ for folder in glob.glob(os.path.join('.', '*')):
             extension_counts[ext] += 1
 
 # Compile total challenge statistics
-stats = utils.default_stats()
-stats['levels'] = utils.map_level_colors(levels_cache)
-languages = stats['languages']
-for language, pair in utils.LANGUAGES.items():
-    ext = '.' + pair[0]
-    color = pair[1]
-    if ext in extension_counts:
-        languages[language] = {
-            'count': extension_counts[ext],
-            'color': color
-        }
-utils.save_to_json(stats, STATS_PATH)
+stats = Stats()
+stats.levels(levels_cache)
+stats.languages(extension_counts)
+stats.save(STATS_PATH)
 
 # Generate graphics
 plot = Plot(stats)

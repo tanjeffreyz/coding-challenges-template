@@ -6,30 +6,6 @@ import pickle
 CACHE_PATH = os.path.join('src', 'resources', 'cache')
 TEMPLATES_DIR = os.path.join('src', 'resources', 'templates')
 IGNORED_TAGS = ('meta', 'link', '!DOCTYPE', 'br', 'hr')
-LEVELS = {
-    'easy': '#2ca02c',
-    'medium': '#ff7f0e',
-    'hard': '#d62728'
-}
-LANGUAGES = {       # Ext         Color
-    'C++':          ('cpp',     '#f34b7d'),
-    'Java':         ('java',    '#b07219'),
-    'Python':       ('py',      '#3572A5'),
-    'C':            ('c',       '#555555'),
-    'C#':           ('cs',      '#178600'),
-    'JavaScript':   ('js',      '#f1e05a'),
-    'Ruby':         ('rb',      '#701516'),
-    'Swift':        ('swift',   '#ffac45'),
-    'Go':           ('go',      '#375eab'),
-    'Scala':        ('sc',      '#DC322F'),
-    'Kotlin':       ('kt',      '#F18E33'),
-    'Rust':         ('rs',      '#dea584'),
-    'PHP':          ('php',     '#4F5D95'),
-    'TypeScript':   ('ts',      '#2b7489'),
-    'Racket':       ('rkt',     '#22228f'),
-    'Erlang':       ('erl',     '#B83998'),
-    'Elixir':       ('ex',      '#6e4a7e')
-}
 
 
 def default_cache():
@@ -41,8 +17,8 @@ def default_cache():
 
 def default_stats():
     return {
-        'levels': {},
-        'languages': {}
+        'levels': [],
+        'languages': []
     }
 
 
@@ -118,13 +94,3 @@ def indent(contents):
                     next_indent -= 1
         contents[i] = ' ' * 4 * max(0, curr_indent) + line
         curr_indent = next_indent
-
-
-def map_level_colors(levels):
-    result = {}
-    for level, count in levels.items():
-        result[level] = {
-            'count': count,
-            'color': LEVELS[level]
-        }
-    return result

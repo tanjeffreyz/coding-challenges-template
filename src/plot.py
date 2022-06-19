@@ -3,8 +3,8 @@ from matplotlib import pyplot as plt
 
 
 class Plot:
-    def __init__(self, stats):
-        self.stats = stats
+    def __init__(self, stats_obj):
+        self.stats = stats_obj.stats
         self.fig, axs = plt.subplots(1, 2, figsize=(9, 4))
         self.ax_levels, self.ax_languages = axs
 
@@ -19,16 +19,13 @@ class Plot:
         return helper
     
     def levels(self):
-        levels = self.stats['levels']
-        level_order = ('hard', 'medium', 'easy')
         labels = []
         colors = []
         counts = []
-        for level in level_order:
-            if level in levels:
-                labels.append(level.capitalize())
-                colors.append(levels[level]['color'])
-                counts.append(levels[level]['count'])
+        for level in self.stats['levels']:
+            labels.append(level['name'].capitalize())
+            colors.append(level['color'])
+            counts.append(level['count'])
 
         _, labels, _ = self.ax_levels.pie(
             counts, labels=labels, colors=colors,
@@ -43,15 +40,10 @@ class Plot:
         counts = []
         colors = []
 
-        descending_counts = sorted(
-            self.stats['languages'].items(),
-            key=lambda x: x[1]['count'],
-            reverse=True
-        )
-        for language, info in descending_counts:
-            labels.append(language)
-            counts.append(info['count'])
-            colors.append(info['color'])
+        for language in self.stats['languages']:
+            labels.append(language['name'])
+            counts.append(language['count'])
+            colors.append(language['color'])
 
         ax = self.ax_languages
         y_range = range(len(labels))
