@@ -4,6 +4,7 @@ import utils
 import glob
 from stats import Stats
 from plot import Plot
+from readme import Readme
 
 
 OUTPUT_PATH = os.path.join('src', 'output')
@@ -19,30 +20,45 @@ for folder in IGNORED_FOLDERS:
 
 # Parse all files
 extension_counts = {}
+problems = []
 cache = utils.load_cache()
-parsed_cache = cache['parsed']
+info_cache = cache['info']
 levels_cache = cache['levels']
 for folder in glob.glob(os.path.join('.', '*')):
-    for file in glob.glob(os.path.join(folder, '**', '*.*'), recursive=True):
-        if file in IGNORED_FILES:
-            continue
-        if file.lower().endswith('info.json'):
-            if file not in parsed_cache:
-                with open(file, 'r') as target:
+    for problem in glob.glob(os.path.join(folder, '*')):
+        info_file = os.path.join(problem, 'info.json')
+        if os.path.exists(info_file):
+            # Parse information about the problem
+            if info_file not in info_cache:
+                with open(info_file, 'r') as target:
                     info = json.load(target)
+                    info['title'] = info['title'].strip()
 
-                    # Parse information
                     level = info['level'].lower()
                     if level not in levels_cache:
                         levels_cache[level] = 0
                     levels_cache[level] += 1
 
-                    parsed_cache.add(file)
-        else:
-            _, ext = os.path.splitext(file)
-            if ext not in extension_counts:
-                extension_counts[ext] = 0
-            extension_counts[ext] += 1
+                    info_cache[info_file] = info
+
+            # Parse solution files
+            solutions = []
+            for file in glob.glob(os.path.join(problem, '**', '*.*'), recursive=True):
+                if file in IGNORED_FILES:
+                    continue
+
+                _, ext = os.path.splitext(file)
+                if ext not in extension_counts:
+                    extension_counts[ext] = 0
+                extension_counts[ext] += 1
+                solutions.append(file)
+
+            # Compile information for the README.md table
+            problems.append({
+                'path': problem,
+                'info': info_cache[info_file],
+                'solutions': solutions
+            })
 
 # Compile total challenge statistics
 stats = Stats()
@@ -57,14 +73,9 @@ plot.languages()
 plot.save(METRICS_PATH, dpi=200)
 
 # Generate README.md
-with open('README.md', 'w') as file:
-    variables = {
-        '__TOTAL_CHALLENGES__': sum(levels_cache.values())
-    }
-    readme_lines = utils.fill_template('readme', variables=variables)[0]
-    readme_lines.append('')
-    utils.indent(readme_lines)
-    file.write(''.join(readme_lines))
+readme = Readme(levels_cache, problems)
+readme.compile()
+readme.save('README.md')
 
 # Save cache for future runs
 utils.save_cache(cache)
