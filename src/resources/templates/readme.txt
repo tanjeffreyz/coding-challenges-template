@@ -1,7 +1,7 @@
+<h1 align="center">Coding Challenges</h1>
+<br>
 <div align="center">
-    <h1>Coding Challenges</h1>
-    <h3>__TOTAL_CHALLENGES__ challenges completed</h3>
+    <img src="src/output/metrics.png" />
 </div>
 <br>
-
-![](src/output/metrics.png)
+<h3 align="center">__TOTAL_CHALLENGES__ challenges completed</h3>
