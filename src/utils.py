@@ -68,7 +68,7 @@ def fill_template(name, variables=dict()):
     for block in blocks:
         for i in range(len(block)):
             for var in variables:
-                block[i] = block[i].replace(var, variables[var])
+                block[i] = block[i].replace(var, str(variables[var]))
     return blocks
 
 
