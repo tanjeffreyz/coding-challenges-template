@@ -58,6 +58,9 @@ plot.save(METRICS_PATH, dpi=200)
 
 # Generate README.md
 with open('README.md', 'w') as file:
+    variables = {
+        '__TOTAL_CHALLENGES__': sum(levels_cache.values())
+    }
     readme_lines = utils.fill_template('readme')[0]
     readme_lines.append('')
     utils.indent(readme_lines)
