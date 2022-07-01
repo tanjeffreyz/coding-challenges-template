@@ -2,7 +2,6 @@ import config
 import json
 import os
 import pickle
-import re
 
 
 CACHE_PATH = os.path.join('src', 'resources', 'cache')
@@ -96,24 +95,3 @@ def indent(contents):
                     next_indent -= 1
         contents[i] = ' ' * 4 * max(0, curr_indent) + line
         curr_indent = next_indent
-
-
-def sort_problems(problems):
-    level_order = {}
-    for i, level_info in enumerate(config.LEVELS):
-        level_order[level_info[0]] = i
-
-    def sort_helper(x):
-        info = x['info']
-        level = info['level'].lower()
-        if level in level_order:
-            level_weight = level_order[level]
-            title = info['title']
-            match = re.search('^\\d+', title)
-            if match:
-                start, end = match.span()
-                return level_weight, end - start, title
-            else:
-                return level_weight, float('inf'), title
-
-    return sorted(problems, key=sort_helper)

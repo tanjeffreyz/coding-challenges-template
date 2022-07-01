@@ -1,6 +1,7 @@
 import config
 import utils
 import os
+import re
 
 
 class Readme:
@@ -13,7 +14,7 @@ class Readme:
         self.readme_contents, self.readme_end = utils.fill_template('readme', variables=variables)
 
     def compile(self):
-        for problem in utils.sort_problems(self.problems):
+        for problem in sort_problems(self.problems):
             self.readme_contents.append('<tr>')
             info = problem['info']
 
@@ -55,3 +56,24 @@ class Readme:
         with open(path, 'w') as file:
             utils.indent(self.readme_contents)
             file.write('\n'.join(self.readme_contents))
+
+
+def sort_problems(problems):
+    level_order = {}
+    for i, level_info in enumerate(config.LEVELS):
+        level_order[level_info[0]] = i
+
+    def sort_helper(x):
+        info = x['info']
+        level = info['level'].lower()
+        if level in level_order:
+            level_weight = level_order[level]
+            title = info['title']
+            match = re.search('^\\d+', title)
+            if match:
+                start, end = match.span()
+                return level_weight, end - start, title
+            else:
+                return level_weight, float('inf'), title
+
+    return sorted(problems, key=sort_helper)
