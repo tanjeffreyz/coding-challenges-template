@@ -61,7 +61,7 @@ with open('README.md', 'w') as file:
     variables = {
         '__TOTAL_CHALLENGES__': sum(levels_cache.values())
     }
-    readme_lines = utils.fill_template('readme')[0]
+    readme_lines = utils.fill_template('readme', variables=variables)[0]
     readme_lines.append('')
     utils.indent(readme_lines)
     file.write(''.join(readme_lines))
