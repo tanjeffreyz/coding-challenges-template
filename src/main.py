@@ -9,10 +9,13 @@ from plot import Plot
 OUTPUT_PATH = os.path.join('src', 'output')
 STATS_PATH = os.path.join(OUTPUT_PATH, 'stats.json')
 METRICS_PATH = os.path.join(OUTPUT_PATH, 'metrics.png')
-IGNORED_FILES = set(
-    glob.glob(os.path.join('.', '*.*')) +
-    glob.glob(os.path.join('.', 'src', '**', '*.*'), recursive=True)
-)
+
+IGNORED_FOLDERS = ('src', 'online-assessments')
+IGNORED_FILES = set(glob.glob(os.path.join('.', '*.*')))
+for folder in IGNORED_FOLDERS:
+    matches = glob.glob(os.path.join('.', folder, '**', '*.*'), recursive=True)
+    IGNORED_FILES.update(matches)
+
 
 # Parse all files
 extension_counts = {}
