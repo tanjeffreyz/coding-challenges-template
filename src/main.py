@@ -11,7 +11,7 @@ OUTPUT_PATH = os.path.join('src', 'output')
 STATS_PATH = os.path.join(OUTPUT_PATH, 'stats.json')
 METRICS_PATH = os.path.join(OUTPUT_PATH, 'metrics.png')
 
-IGNORED_FOLDERS = ('src', 'online-assessments')
+IGNORED_FOLDERS = ('src',)
 IGNORED_FILES = set(glob.glob(os.path.join('.', '*.*')))
 for folder in IGNORED_FOLDERS:
     matches = glob.glob(os.path.join('.', folder, '**', '*.*'), recursive=True)
